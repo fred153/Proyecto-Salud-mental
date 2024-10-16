@@ -34,7 +34,7 @@ pip install Flask requests
 </head>
 <body>
 
-    <a href="https://wa.me/+573212810060" class="whatsapp-button">Contáctanos por WhatsApp</a>
+    <a href="https://wa.me/+573212810060" class="whatsapp-button" onclick="sendMessage()">Contáctanos por WhatsApp</a>
 
 <script>
         async function sendMessage() {
