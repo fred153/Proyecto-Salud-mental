@@ -37,14 +37,39 @@ pip install Flask requests
     <a href="https://wa.me/+573212810060" class="whatsapp-button" onclick="sendMessage()">Contáctanos por WhatsApp</a>
 
 <script>
-        async function sendMessage() {
-            // Mensaje que enviarás
-            const mensaje = "Hola soy tu asistente virtual y voy \n ayudarte a entender mejor las enfermedades del sistema nervioso";
-            body: new URLSearchParams({
-                    'Body': mensaje
-                })
-            });
-        }
+    // Importar las dependencias
+const { Client, LocalAuth } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
+
+// Crear una instancia del cliente de WhatsApp
+const client = new Client({
+    authStrategy: new LocalAuth(), // Guarda la sesión para no tener que escanear el código QR cada vez
+});
+
+// Generar el código QR para el inicio de sesión
+client.on('qr', (qr) => {
+    console.log('Escanea este código QR con tu WhatsApp:');
+    qrcode.generate(qr, { small: true });
+});
+
+// Confirmar que el cliente está listo para usar
+client.on('ready', () => {
+    console.log('El cliente de WhatsApp está listo.');
+});
+
+// Manejar los mensajes entrantes
+client.on('message', message => {
+    console.log(`Mensaje recibido: ${message.body}`);
+
+    // Verificar si el mensaje es "hola"
+    if (message.body.toLowerCase() === 'hola') {
+        // Responder con "¿Cómo estás?"
+        message.reply('¿Cómo estás?');
+    }
+});
+
+// Iniciar el cliente
+client.initialize();
     </script>
 </body>
 </html>
