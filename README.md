@@ -1,5 +1,4 @@
 pip install Flask requests
-python app.py
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -37,5 +36,11 @@ python app.py
 
     <a href="https://wa.me/+573212810060" class="whatsapp-button">Contáctanos por WhatsApp</a>
 
+<script>
+        async function sendMessage() {
+            // Mensaje que enviarás
+            const mensaje = "Hola soy tu asistente virtual y voy \n ayudarte a entender mejor las enfermedades del sistema nervioso";
+        }
+    </script>
 </body>
 </html>
