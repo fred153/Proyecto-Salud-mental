@@ -40,6 +40,10 @@ pip install Flask requests
         async function sendMessage() {
             // Mensaje que enviarás
             const mensaje = "Hola soy tu asistente virtual y voy \n ayudarte a entender mejor las enfermedades del sistema nervioso";
+            body: new URLSearchParams({
+                    'Body': mensaje
+                })
+            });
         }
     </script>
 </body>
