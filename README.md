@@ -35,7 +35,7 @@ python app.py
 </head>
 <body>
 
-    <a href="https://wa.me/3212810060" class="whatsapp-button">Contáctanos por WhatsApp</a>
+    <a href="https://wa.me/+573212810060" class="whatsapp-button">Contáctanos por WhatsApp</a>
 
 </body>
 </html>
