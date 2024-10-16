@@ -35,6 +35,7 @@ pip install Flask requests
 <body>
 
     <a href="https://wa.me/+573212810060" class="whatsapp-button" onclick="sendMessage()">Contáctanos por WhatsApp</a>
+    node bot.js
 
 <script>
     // Importar las dependencias
