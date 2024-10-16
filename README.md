@@ -1,3 +1,5 @@
+pip install Flask requests
+python app.py
 <!DOCTYPE html>
 <html lang="es">
 <head>
