@@ -1,6 +1,6 @@
-const express = require('express');
-const { Client, LocalAuth } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
+import express from 'express';
+import { Client, LocalAuth } from 'whatsapp-web.js';
+import qrcode from 'qrcode-terminal';
 
 const app = express();
 const PORT = process.env.PORT || 10000; // Usar el puerto de Render o 10000 como predeterminado
