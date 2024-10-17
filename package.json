@@ -1,0 +1,22 @@
+{
+  "name": "whatsapp-salud",
+  "version": "1.0.0",
+  "description": "eduacion mental",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fred153/Proyecto-Salud-mental.git"
+  },
+  "keywords": [
+    "mental"
+  ],
+  "author": "Freddy Caceres",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fred153/Proyecto-Salud-mental/issues"
+  },
+  "homepage": "https://github.com/fred153/Proyecto-Salud-mental#readme"
+}
