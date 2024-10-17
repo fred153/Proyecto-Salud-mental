@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/fred153/Proyecto-Salud-mental#readme",
   "dependencies": {
-    "whatsapp-web.js": "^1.0.0" // Asegúrate de tener esta línea
+    "whatsapp-web.js": "^1.18.0", // Asegúrate de incluir la versión correcta
+    "express": "^4.17.1" // Asegúrate de que express también esté incluido
   }
 }
