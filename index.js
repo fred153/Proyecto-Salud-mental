@@ -3,7 +3,7 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 10000; // Usar el puerto de Render o 10000 como predeterminado
 
 // Crear cliente de WhatsApp
 const client = new Client({
@@ -138,6 +138,7 @@ client.on('message', manejarMensaje);
 client.initialize();
 
 // Iniciar el servidor en el puerto 3000
-app.listen(port, () => {
-    console.log(`Servidor backend corriendo en http://localhost:${port}`);
+// Configurar el servidor Express
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
 });
