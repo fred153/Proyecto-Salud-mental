@@ -8,6 +8,6 @@
 <body>
     <h1>Bienvenido a nuestra página</h1>
      <script src="express.js"></script>
-    <button onclick="window.open('https://api.whatsapp.com/send?phone=+573212810060&text=Hola%20quiero%20ayuda', '_blank')">Iniciar Chat en WhatsApp</button>
+    <button onclick="window.open('https://api.whatsapp.com/send?phone=+573212810060&text=Hola', '_blank')">Iniciar Chat en WhatsApp</button>
 </body>
 </html>
