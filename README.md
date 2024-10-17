@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -32,11 +31,30 @@
     <button class="whatsapp-button" onclick="iniciarChat()">Contáctanos por WhatsApp</button>
 
     <script>
-        function iniciarChat() {
-            const numero = '+573212810060'; // Reemplaza con el número de WhatsApp
+        async function iniciarChat() {
             const mensaje = 'Hola, tengo una consulta'; // Mensaje inicial
-            const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
+
+            try {
+                // Hacer una llamada a tu backend en Render para manejar el mensaje
+                const response = await fetch('https://tu-backend-url.render.com/whatsapp', { // Reemplaza con la URL de tu backend
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: mensaje }),
+                });
+
+                if (response.ok) {
+                    // Si la llamada es exitosa, abrir WhatsApp
+                    const numero = '+573212810060'; // Reemplaza con el número de WhatsApp
+                    const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
+                    window.open(url, '_blank');
+                } else {
+                    console.error('Error en la respuesta del servidor:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error al enviar el mensaje:', error);
+            }
         }
     </script>
 </body>
