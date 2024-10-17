@@ -23,5 +23,6 @@
   "dependencies": {
     "whatsapp-web.js": "^1.18.0",
     "express": "^4.17.1" 
+    "qrcode-terminal": "^<versión>" 
   }
 }
