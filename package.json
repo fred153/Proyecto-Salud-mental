@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/fred153/Proyecto-Salud-mental/issues"
   },
-  "homepage": "https://github.com/fred153/Proyecto-Salud-mental#readme"
+  "homepage": "https://github.com/fred153/Proyecto-Salud-mental#readme",
+  "dependencies": {
+    "whatsapp-web.js": "^1.0.0" // Asegúrate de tener esta línea
+  }
 }
