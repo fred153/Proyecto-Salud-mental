@@ -98,8 +98,20 @@
 
     <!-- Contenedor de cuadro de texto y botón de envío -->
     <div class="input-container">
-        <input type="text" placeholder="Escribe tu mensaje aquí...">
-        <button>Enviar</button>
+        <input type="text" id="mensajeInput" placeholder="Escribe tu mensaje aquí...">
+        <button onclick="enviarMensaje()">Enviar</button>
     </div>
+
+    <script>
+        function enviarMensaje() {
+            // Capturamos el valor del cuadro de texto
+            var mensaje = document.getElementById("mensajeInput").value;
+
+            // Guardamos el valor en una variable
+            console.log("Mensaje enviado:", mensaje);
+
+            // Puedes realizar más acciones con el mensaje, como enviarlo a un servidor
+        }
+    </script>
 </body>
 </html>
