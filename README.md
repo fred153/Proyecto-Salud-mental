@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página con Efecto Tornasol, Relieve 3D y Cuadro de Mensajes</title>
+    <title>Página con Cuadro de Mensajes y Envío</title>
     <style>
         body {
             margin: 0;
@@ -13,6 +13,7 @@
             background: linear-gradient(135deg, #FFD1DC, #FFB6C1, #FFC0CB, #FF69B4);
             background-size: 200% 200%;
             animation: gradientShift 5s ease infinite;
+            position: relative;
         }
 
         @keyframes gradientShift {
@@ -45,6 +46,45 @@
             font-size: 18px;
             font-weight: bold;
         }
+
+        /* Cuadro de texto y botón de envío */
+        .input-container {
+            position: absolute;
+            bottom: 20px;
+            width: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input-container input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid #FFB6C1;
+            border-radius: 10px;
+            box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1),
+                        inset -5px -5px 10px rgba(255, 255, 255, 0.5);
+            outline: none;
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            font-size: 18px;
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2),
+                        -5px -5px 10px rgba(255, 255, 255, 0.5);
+            transition: background-color 0.3s;
+        }
+
+        .input-container button:hover {
+            background-color: #FF1493;
+        }
     </style>
 </head>
 <body>
@@ -54,6 +94,12 @@
             <br><br>
             Este es un cuadro de mensaje en el centro.
         </div>
+    </div>
+
+    <!-- Contenedor de cuadro de texto y botón de envío -->
+    <div class="input-container">
+        <input type="text" placeholder="Escribe tu mensaje aquí...">
+        <button>Enviar</button>
     </div>
 </body>
 </html>
