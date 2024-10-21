@@ -58,7 +58,7 @@
 
         .mensaje-usuario {
             padding: 10px;
-            background-color: #FFC0CB;
+            background-color: #FFC0CB; /* Color claro para el usuario */
             border-radius: 10px;
             margin-bottom: 10px;
             display: inline-block;
@@ -66,6 +66,19 @@
             text-align: right;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
             float: right; /* Alineación a la derecha */
+            clear: both; /* Evita que los mensajes se apilen mal */
+        }
+
+        .mensaje-respuesta {
+            padding: 10px;
+            background-color: #FF69B4; /* Color más oscuro para la respuesta */
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            max-width: 80%;
+            text-align: left;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            float: left; /* Alineación a la izquierda */
             clear: both; /* Evita que los mensajes se apilen mal */
         }
 
@@ -137,12 +150,26 @@
                 var mensajeContainer = document.getElementById("mensajeContainer");
                 mensajeContainer.appendChild(nuevoMensaje);
 
+                // Llamamos a la función de respuesta
+                responderMensaje(mensaje);
+
                 // Limpiamos el cuadro de texto después de enviar el mensaje
                 document.getElementById("mensajeInput").value = "";
 
                 // Hacemos scroll hasta el último mensaje
                 mensajeContainer.scrollTop = mensajeContainer.scrollHeight;
             }
+        }
+
+        function responderMensaje(mensaje) {
+            // Creamos un nuevo elemento para la respuesta
+            var respuestaMensaje = document.createElement("div");
+            respuestaMensaje.classList.add("mensaje-respuesta");
+            respuestaMensaje.textContent = mensaje; // Responder con el mismo mensaje
+
+            // Insertamos la respuesta en el contenedor de mensajes
+            var mensajeContainer = document.getElementById("mensajeContainer");
+            mensajeContainer.appendChild(respuestaMensaje);
         }
     </script>
 </body>
