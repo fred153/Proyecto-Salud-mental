@@ -90,9 +90,7 @@
 <body>
     <div class="relieve">
         <div class="mensaje">
-            ¡Bienvenido a nuestra página!
-            <br><br>
-            Este es un cuadro de mensaje en el centro.
+            
         </div>
     </div>
 
