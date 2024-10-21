@@ -56,8 +56,6 @@
     overflow-y: auto; /* Desplazamiento vertical si hay más mensajes */
     padding: 10px;
     text-align: left; /* Alineación de texto a la izquierda */
-    justify-content: center; /* Centra los elementos horizontalmente */
-    align-items: center; /* Centra los elementos verticalmente */
 }
 
         .mensaje-usuario {
