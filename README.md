@@ -65,6 +65,8 @@
             max-width: 80%;
             text-align: right;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            float: right; /* Alineación a la derecha */
+            clear: both; /* Evita que los mensajes se apilen mal */
         }
 
         /* Cuadro de texto y botón de envío */
