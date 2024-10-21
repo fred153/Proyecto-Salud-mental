@@ -51,14 +51,14 @@
         .input-container {
             position: absolute;
             bottom: 20px;
-            width: 60%;
+            width: 50%; /* Ajusta el ancho del contenedor */
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .input-container input[type="text"] {
-            width: 80%;
+            width: 80%; /* Ajusta el ancho del cuadro de texto */
             padding: 10px;
             font-size: 18px;
             border: 2px solid #FFB6C1;
