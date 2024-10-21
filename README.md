@@ -24,6 +24,7 @@
 
         .relieve {
             width: 60%;
+            height: 300px;
             padding: 20px;
             background-color: #FFD1DC;
             border-radius: 20px;
@@ -35,10 +36,11 @@
             font-family: 'Arial', sans-serif;
             color: #333;
             font-size: 24px;
+            position: relative;
         }
 
         .mensaje {
-            padding: 20px;
+            padding: 10px;
             background-color: rgba(255, 255, 255, 0.8); /* Fondo translúcido */
             border-radius: 15px;
             box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2),
@@ -47,18 +49,36 @@
             font-weight: bold;
         }
 
+        .mensaje-container {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .mensaje-usuario {
+            padding: 10px;
+            background-color: #FFC0CB;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            max-width: 80%;
+            text-align: right;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
         /* Cuadro de texto y botón de envío */
         .input-container {
             position: absolute;
             bottom: 20px;
-            width: 50%; /* Ajusta el ancho del contenedor */
+            width: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .input-container input[type="text"] {
-            width: 80%; /* Ajusta el ancho del cuadro de texto */
+            width: 80%;
             padding: 10px;
             font-size: 18px;
             border: 2px solid #FFB6C1;
@@ -89,8 +109,8 @@
 </head>
 <body>
     <div class="relieve">
-        <div class="mensaje">
-            
+        <div class="mensaje-container" id="mensajeContainer">
+            <!-- Los mensajes enviados aparecerán aquí -->
         </div>
     </div>
 
@@ -105,10 +125,22 @@
             // Capturamos el valor del cuadro de texto
             var mensaje = document.getElementById("mensajeInput").value;
 
-            // Guardamos el valor en una variable
-            console.log("Mensaje enviado:", mensaje);
+            if (mensaje.trim() !== "") { // Verificamos que el mensaje no esté vacío
+                // Creamos un nuevo elemento para el mensaje del usuario
+                var nuevoMensaje = document.createElement("div");
+                nuevoMensaje.classList.add("mensaje-usuario");
+                nuevoMensaje.textContent = mensaje;
 
-            // Puedes realizar más acciones con el mensaje, como enviarlo a un servidor
+                // Insertamos el nuevo mensaje en el contenedor de mensajes
+                var mensajeContainer = document.getElementById("mensajeContainer");
+                mensajeContainer.appendChild(nuevoMensaje);
+
+                // Limpiamos el cuadro de texto después de enviar el mensaje
+                document.getElementById("mensajeInput").value = "";
+
+                // Hacemos scroll hasta el último mensaje
+                mensajeContainer.scrollTop = mensajeContainer.scrollHeight;
+            }
         }
     </script>
 </body>
