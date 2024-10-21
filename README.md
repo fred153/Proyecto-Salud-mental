@@ -50,11 +50,13 @@
         }
 
         .mensaje-container {
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 10px;
-            text-align: left;
-        }
+    position: absolute;
+    max-height: 1000px; /* Altura máxima para el cuadro de mensajes */
+    width: 500px;
+    overflow-y: auto; /* Desplazamiento vertical si hay más mensajes */
+    padding: 10px;
+    text-align: left; /* Alineación de texto a la izquierda */
+}
 
         .mensaje-usuario {
             padding: 10px;
