@@ -29,7 +29,7 @@
   </style>
 </head>
 <body>
-  <h1>Tateti (Tic Tac Toe) JS</h1>
+  <h1>Tres en raya</h1>
   
   <table id="tablero">
     <!-- Aquí se genera el tablero dinámicamente -->
