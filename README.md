@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Tateti (Tic Tac Toe) JS</title>
+  <title>Tres en raya</title>
   <style>
     body {
       font-family: Arial, sans-serif;
