@@ -138,140 +138,158 @@
     </div>
 
     <script>
-        // Objeto para almacenar estados de usuarios
-        let estadosUsuarios = {};
+        import copy
 
-        // Listas de información
-        const lista_de_definicion = {
-            "ansiedad": "Es una respuesta natural del cuerpo ante situaciones de estrés o peligro. \nSe caracteriza por sentimientos de preocupación, nerviosismo o miedo, y \np puede manifestarse tanto a nivel físico como emocional."
-        };
+SIMBOLO_JUGADOR = 'X'
+SIMBOLO_MAQUINA = 'O'
 
-        const lista_de_sintomas = {
-            "ansiedad": [
-                "Palpitaciones o aceleración del corazón",
-                "Sudoración excesiva",
-                "Tensión muscular",
-                "Fatiga o debilidad",
-                "Dificultad para respirar o sensación de ahogo",
-                "Mareos o aturdimiento",
-                "Náuseas o problemas gastrointestinales"
-            ]
-        };
+def crear_malla_vacia():
+    return [[" " for _ in range(3)] for _ in range(3)]
 
-        // Función para saludar al usuario
-        function saludarUsuario(msg) {
-            msg.reply('Hola soy tu asistente virtual y voy a ayudarte a entender mejor las enfermedades del sistema nervioso. \nIntroduce el nombre de la enfermedad:');
-        }
+def gano_maquina(malla):
+    for i in range(3):
+        if all(malla[i][j] == SIMBOLO_MAQUINA for j in range(3)):
+            return True
+        if all(malla[j][i] == SIMBOLO_MAQUINA for j in range(3)):
+            return True
+    if all(malla[i][i] == SIMBOLO_MAQUINA for i in range(3)):
+        return True
+    if all(malla[i][2 - i] == SIMBOLO_MAQUINA for i in range(3)):
+        return True
+    return False
 
-        // Función para manejar mensajes
-        function manejarMensaje(msg) {
-            const usuarioId = msg.from;
-            const mensaje = msg.body.trim().toLowerCase();
+def verificar_ganador(malla):
+    for jugador in [SIMBOLO_JUGADOR, SIMBOLO_MAQUINA]:
+        for i in range(3):
+            if all(malla[i][j] == jugador for j in range(3)) or all(malla[j][i] == jugador for j in range(3)):
+                return jugador
+        if all(malla[i][i] == jugador for i in range(3)) or all(malla[i][2 - i] == jugador for i in range(3)):
+            return jugador
+    return None
 
-            // Ignorar los mensajes vacíos
-            if (mensaje === '') return;
+class Nodo:
+    def __init__(self, malla, jugador, nivel=0):
+        self.malla = malla
+        self.jugador = jugador  # último jugador que hizo jugada
+        self.nivel = nivel
+        self.hijos = []
+        self.gano_maquina = gano_maquina(malla)
+        self.ganador = verificar_ganador(malla)
 
-            // Inicializar estado si no existe
-            if (!estadosUsuarios[usuarioId]) {
-                estadosUsuarios[usuarioId] = 'inicio'; // Inicializa el estado del usuario
-            }
+def generar_hijos(nodo):
+    if nodo.gano_maquina or nodo.ganador is not None:
+        return
+    if not any(" " in fila for fila in nodo.malla):
+        return
 
-            evaluarRespuesta(msg, estadosUsuarios[usuarioId], usuarioId); // Llama a la función y pasa el estado actual
-        }
+    siguiente_jugador = SIMBOLO_MAQUINA if nodo.jugador == SIMBOLO_JUGADOR else SIMBOLO_JUGADOR
 
-        // Función para evaluar la respuesta del usuario
-        function evaluarRespuesta(msg, estado, usuarioId) {
-            const enfermedadConsultada = msg.body.toLowerCase().trim(); // Obtener la enfermedad consultada y normalizarla
+    for i in range(3):
+        for j in range(3):
+            if nodo.malla[i][j] == " ":
+                nueva_malla = copy.deepcopy(nodo.malla)
+                nueva_malla[i][j] = siguiente_jugador
+                hijo = Nodo(nueva_malla, siguiente_jugador, nodo.nivel + 1)
+                nodo.hijos.append(hijo)
 
-            switch (estado) {
-                case 'inicio':
-                    saludarUsuario(msg);
-                    estadosUsuarios[usuarioId] = 'esperando_enfermedad'; // Cambia el estado
-                    break;
+def minimax(nodo, es_turno_maquina):
+    if nodo.gano_maquina:
+        return 1
+    elif nodo.ganador == SIMBOLO_JUGADOR:
+        return -1
+    elif not any(" " in fila for fila in nodo.malla):
+        return 0
 
-                case 'esperando_enfermedad':
-                    if (lista_de_definicion[enfermedadConsultada]) {
-                        const definicion = lista_de_definicion[enfermedadConsultada];
-                        const sintomas = lista_de_sintomas[enfermedadConsultada].join(', ');
+    generar_hijos(nodo)
 
-                        msg.reply(`**Definición de ${enfermedadConsultada}:**\n${definicion}\n\nAhora que ya sabemos qué es la ${enfermedadConsultada}, veremos algunos síntomas:\n${sintomas}\n\n¿Entendiste? Responde "sí" o "no".`);
-                        estadosUsuarios[usuarioId] = 'evaluando_entendimiento'; // Cambia el estado
-                    } else {
-                        msg.reply('Lo siento, no tengo información sobre esa enfermedad. Por favor, intenta con otra.');
-                    }
-                    break;
+    if es_turno_maquina:
+        mejor_valor = -float('inf')
+        for hijo in nodo.hijos:
+            valor = minimax(hijo, False)
+            if valor > mejor_valor:
+                mejor_valor = valor
+        return mejor_valor
+    else:
+        peor_valor = float('inf')
+        for hijo in nodo.hijos:
+            valor = minimax(hijo, True)
+            if valor < peor_valor:
+                peor_valor = valor
+        return peor_valor
 
-                case 'evaluando_entendimiento':
-                    if (msg.body.toLowerCase() === 'sí') {
-                        msg.reply('¡Genial! ¿Quieres un ejemplo de cómo se presenta la ansiedad en la vida real? Responde "sí" o "no".');
-                        estadosUsuarios[usuarioId] = 'preguntando_ejemplo'; // Nueva etapa
-                    } else if (msg.body.toLowerCase() === 'no') {
-                        msg.reply('Entiendo. Aquí tienes un enlace para más información: [enlace]');
-                        estadosUsuarios[usuarioId] = 'fin'; // Finaliza la interacción
-                    } else {
-                        msg.reply('No entiendo tu respuesta. Responde "sí" o "no".');
-                    }
-                    break;
+def elegir_mejor_jugada(nodo_actual):
+    generar_hijos(nodo_actual)
+    mejor_valor = -float('inf')
+    mejor_jugada = None
 
-                case 'preguntando_ejemplo':
-                    if (msg.body.toLowerCase() === 'sí') {
-                        msg.reply('Aquí tienes un ejemplo: María, de 28 años, siente ansiedad antes de las reuniones en su trabajo.');
-                        estadosUsuarios[usuarioId] = 'evaluando_nuevo_ejemplo';
-                    } else if (msg.body.toLowerCase() === 'no') {
-                        msg.reply('Entiendo, si necesitas más información, no dudes en preguntar. Aquí tienes un video que puede ayudarte: [video]');
-                        estadosUsuarios[usuarioId] = 'fin';
-                    }
-                    break;
+    for hijo in nodo_actual.hijos:
+        valor = minimax(hijo, False)
+        if valor > mejor_valor:
+            mejor_valor = valor
+            mejor_jugada = hijo
 
-                case 'evaluando_nuevo_ejemplo':
-                    msg.reply('¿Te gustaría otro ejemplo? Responde "sí" o "no".');
-                    estadosUsuarios[usuarioId] = 'decidiendo_ejemplo'; // Nueva etapa
-                    break;
+    return mejor_jugada
 
-                case 'decidiendo_ejemplo':
-                    if (msg.body.toLowerCase() === 'sí') {
-                        msg.reply('Aquí tienes otro ejemplo: Pedro, de 34 años, siente ansiedad al hablar en público.');
-                    } else if (msg.body.toLowerCase() === 'no') {
-                        msg.reply('Entiendo, aquí tienes un enlace para más información: [enlace]');
-                        estadosUsuarios[usuarioId] = 'fin';
-                    }
-                    break;
+def imprimir_malla(malla):
+    for fila in malla:
+        print(" | ".join(c if c != " " else "_" for c in fila))
+    print()
 
-                case 'fin':
-                    msg.reply('Gracias por usar el asistente. Si necesitas más ayuda, no dudes en preguntar.');
-                    delete estadosUsuarios[usuarioId]; // Borra el estado del usuario
-                    break;
+def jugar():
+    nodo_actual = Nodo(crear_malla_vacia(), SIMBOLO_MAQUINA)  # Inicial: máquina no ha jugado aún (por eso pongo SIMBOLO_MAQUINA, para que siguiente sea jugador)
+    while True:
+        imprimir_malla(nodo_actual.malla)
 
-                default:
-                    msg.reply('No entiendo tu respuesta, por favor intenta nuevamente.');
-                    break;
-            }
-        }
+        if nodo_actual.ganador == SIMBOLO_JUGADOR:
+            print("¡Ganaste! 🎉")
+            break
+        elif nodo_actual.ganador == SIMBOLO_MAQUINA:
+            print("La máquina ganó. 💻")
+            break
+        elif not any(" " in fila for fila in nodo_actual.malla):
+            print("Empate.")
+            break
 
-        // Función para enviar mensaje desde el input
-        function enviarMensaje() {
-            const input = document.getElementById('mensajeInput');
-            const mensaje = input.value.trim();
+        # Turno jugador
+        print("Tu turno. Ingresa fila y columna (0, 1 o 2) separados por espacio:")
+        try:
+            fila, col = map(int, input().split())
+        except:
+            print("Entrada inválida, intenta de nuevo.")
+            continue
 
-            // Si hay un mensaje, lo enviamos
-            if (mensaje) {
-                agregarMensaje(mensaje, 'usuario');
-                manejarMensaje({ body: mensaje, from: 'usuarioId', reply: (respuesta) => agregarMensaje(respuesta, 'respuesta') });
-                input.value = ''; // Limpiar el campo de entrada
-            }
-        }
+        if fila not in [0,1,2] or col not in [0,1,2]:
+            print("Valores fuera de rango, intenta de nuevo.")
+            continue
+        if nodo_actual.malla[fila][col] != " ":
+            print("Casilla ocupada, intenta de nuevo.")
+            continue
 
-        // Función para agregar mensajes al contenedor
-        function agregarMensaje(texto, tipo) {
-            const contenedor = document.getElementById('mensajeContainer');
-            const divMensaje = document.createElement('div');
+        nueva_malla = copy.deepcopy(nodo_actual.malla)
+        nueva_malla[fila][col] = SIMBOLO_JUGADOR
+        nodo_actual = Nodo(nueva_malla, SIMBOLO_JUGADOR, nodo_actual.nivel +1)
 
-            divMensaje.className = tipo === 'usuario' ? 'mensaje-usuario' : 'mensaje-respuesta';
-            divMensaje.innerText = texto;
+        # Verificar si jugador ganó antes de que juegue máquina
+        if nodo_actual.ganador == SIMBOLO_JUGADOR:
+            imprimir_malla(nodo_actual.malla)
+            print("¡Ganaste! 🎉")
+            break
 
-            contenedor.appendChild(divMensaje);
-            contenedor.scrollTop = contenedor.scrollHeight; // Desplazarse al último mensaje
-        }
+        # Turno máquina
+        print("Turno de la máquina...")
+        nodo_actual = elegir_mejor_jugada(nodo_actual)
+
+        if nodo_actual is None:
+            print("Empate")
+            break
+
+        if nodo_actual.ganador == SIMBOLO_MAQUINA:
+            imprimir_malla(nodo_actual.malla)
+            print("La máquina ganó. 💻")
+            break
+
+jugar()
+
     </script>
 </body>
 </html>
